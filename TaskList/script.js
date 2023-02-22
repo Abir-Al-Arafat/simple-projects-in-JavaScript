@@ -14,6 +14,8 @@ loadEventListeners();
 function loadEventListeners(){
     // add task event
     form.addEventListener('submit', addTask);
+    // remove task event
+    taskList.addEventListener('click', removeTask);
 }
 
 // Add Task
@@ -49,4 +51,15 @@ function addTask(e){
 
     // prevents default behaviour
     e.preventDefault();
+}
+
+// remove task
+function removeTask(e){
+    // checking if the class exists
+    if(e.target.parentElement.classList.contains('delete-item')){
+        // confirmation pop up
+        if (confirm('Do you want to remove the task?'))
+            // removing the list tag
+            e.target.parentElement.parentElement.remove();
+    }
 }
