@@ -10,10 +10,20 @@ const totalPayment = document.getElementById('total-payment');
 const totalInterest = document.getElementById('total-interest');
 
 // adding event listener
-loanForm.addEventListener('submit', calculateResults);
+loanForm.addEventListener('submit', function(e){
+    // hide results
+    document.getElementById('results').style.display = 'none';
+
+    // show loader
+    document.getElementById('loading').style.display = 'block';
+
+    // loader stops showing after 2 sec and results get shown
+    setTimeout(calculateResults, 2000);
+    e.preventDefault();
+});
 
 // calculate results
-function calculateResults(e){
+function calculateResults(){
 
     const principal = parseFloat(amount.value);
     const calculatedInterest = parseFloat(interest.value) / 100 / 12;
@@ -28,13 +38,17 @@ function calculateResults(e){
         monthlyPayment.value = monthly.toFixed(2);
         totalPayment.value = (monthly*calculatedPayments).toFixed(2);
         totalInterest.value = ((monthly*calculatedPayments)-principal).toFixed(2);
+
+        // displays results
+        document.getElementById('results').style.display = 'block';
+
+        // hides loader
+        document.getElementById('loading').style.display = 'none';
     }else{
+        document.getElementById('loading').style.display = 'none';
         showError("please input valid numbers");
     }
-
-
-    console.log('calc');
-    e.preventDefault();
+    // e.preventDefault();
 }
 
 // shows error
