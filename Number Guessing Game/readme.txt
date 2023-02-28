@@ -1,0 +1,1 @@
+1. skeleton framework is used for the layout (link: https://cdnjs.com/libraries/skeleton)
