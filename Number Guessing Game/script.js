@@ -1,7 +1,7 @@
 // game values
-let min = 1;
-let max = 10;
-let winningNum = 5;
+let min = 10;
+let max = 20;
+let winningNum = randomNum(min, max);
 let guessesLeft = 3;
 
 // UI elements
@@ -16,6 +16,9 @@ const hints = document.querySelector('.hint');
 // Assign maximum and minimum value in the UI
 minNum.textContent = min;
 maxNum.textContent = max;
+
+// play again functionality
+game.addEventListener('mousedown', reloadPage);
 
 // guess button funtionality
 guessBtn.addEventListener('click', function(){
@@ -33,15 +36,16 @@ guessBtn.addEventListener('click', function(){
         guessInput.disabled = true;
         // guessBtn.textContent = 'play again';
         // setting message and colors
-        setMessage(`Congrats!! You Won`, 'green', 'green');
-        hint(5)
-        console.log(guess)
+        setMessage(`Congrats!! You've guessed the correct answer`, 'green', 'green');
+        hint(guess)
+        guessBtn.value = 'Play Again';
+        guessBtn.className = 'play-again';
     }else{
         guessesLeft -= 1;
-        // checking how many guesses left
-        chances(guessesLeft);
         // giving user a hint
         hint(guess);
+        // checking how many guesses left
+        chances(guessesLeft);
         guessInput.value = '';
     }
 })
@@ -55,23 +59,44 @@ function hint(guess){
         hints.textContent = `Answer is too high`;
         hints.style.color = 'red';
     }else{
-        hints.textContent = `Press 'Play Again' for another round`;
+        hints.textContent = `Press 'PLAY AGAIN' for another round`;
         hints.style.color = 'green';
+        guessBtn.value = 'Play Again'
+        guessBtn.className = 'play-again';
     }
 }
 
 // function to check how many guesses left
 function chances(guessesLeft){
     if(guessesLeft <= 0){
-        setMessage(`Wrong Answer!! You've lost`, 'red', 'red');
+        setMessage(`You've lost. The correct number was ${winningNum}`, 'red', 'red');
         guessInput.disabled = true;
+
+        guessBtn.value = 'Play Again'
+        guessBtn.className = 'play-again';
+        hints.textContent = `Press 'PLAY AGAIN' for another round`;
+        hints.style.color = 'green';
+        
     }else{
         setMessage(`Wrong Answer!! You've ${guessesLeft} guesses left`, 'red', 'red');
     }
 }
 
+// sets message and color
 function setMessage(msg, color){
     guessInput.style.borderColor = color
     message.style.color = color;
     message.textContent = msg;
+}
+
+// returns random number
+function randomNum(min, max){
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+// reloads page
+function reloadPage(e){
+    if(e.target.className === 'play-again'){
+        window.location.reload();
+    }
 }
