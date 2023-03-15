@@ -10,14 +10,22 @@
 <body>
     <div class="container">
         <h1><span style="color:rgb(19, 173, 201);">Weight</span> Converter</h1>
-        <p>Enter Weight Value in Kilograms:</p>
 
-        <p>
-            <!-- <label for="">Kilograms:</label> -->
-            <input id="inputKG" type="number" placeholder="Kilograms" oninput="weightConverter(this.value)" onchange="weightConverter(this.value)"> 
-        </p>
+        <div class="content">
+            <h3>Kilograms to <span style="color:rgb(19, 173, 201);">Pounds</span></h3>
+            <!-- <p>Enter Weight Value in Kilograms:</p> -->
+            <input id="inputKG" type="number" placeholder="Kilograms" oninput="convertKGToPound(this.value)" onchange="convertKGToPound(this.value)"> 
 
-        <p>Weight in pound: <span id="outputPounds"></span></p>
+            <p>Weight in pounds: <span id="outputPounds"></span></p>
+        </div>
+
+        <div class="content">
+            <h3>Pounds to <span style="color: rgb(19, 173, 201);">Kilograms</span></h3>
+            <!-- <p>Enter Weight Value in pounds:</p> -->
+            <input id="inputPounds" type="number" placeholder="Pounds" oninput="convertPoundToKG(this.value)" onchange="convertPoundToKG(this.value)"> 
+
+            <p>Weight in kilograms: <span id="outputKG"></span></p>
+        </div>
     </div>
 
     <!-- for kg to pounds conversion -->

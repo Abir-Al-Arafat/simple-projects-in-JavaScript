@@ -49,3 +49,11 @@ body{
     outline: 0;
     border-bottom-color: rgb(19, 173, 201);
 }
+
+.content{
+    margin-bottom: 3rem;
+}
+
+.content h3{
+    text-align: center;
+}
