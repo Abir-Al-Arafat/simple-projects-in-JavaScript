@@ -1,0 +1,21 @@
+.success, .error{
+    color: #f4f4f4;
+    padding: 6px;
+    margin: 5px 0 15px 0;
+}
+
+.success{
+    background: green;
+}
+
+.error{
+    background: red;
+}
+
+.delete{
+    text-decoration: none;
+}
+
+.delete:hover{
+    color: red;
+}
