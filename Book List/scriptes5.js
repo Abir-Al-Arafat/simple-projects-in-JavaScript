@@ -1,3 +1,4 @@
+// ES5 function constructor version
 // Book Constructor: creates the actual book object
 function Book(title, author, isbn){
     this.title = title;
@@ -67,6 +68,69 @@ UI.prototype.clearInputFields = function(){
     document.getElementById('isbn').value = "";
 }
 
+// Local storage constructor
+function StoreData(){}
+
+// method for fetching data from the local storage
+StoreData.prototype.getBook = function(){
+    let books = [];
+    // checking if data exist
+    if(localStorage.getItem('books') !== null){
+        // converting data to array of objects
+        books = JSON.parse(localStorage.getItem('books')); 
+    }
+
+    return books;
+}
+
+// object for storing data
+const storeData = new StoreData();
+
+// method for adding data to the local storage
+StoreData.prototype.addBook = function(book){
+    // fetching data from local storage
+    const books = storeData.getBook();
+    // pushing data in the array
+    books.push(book)
+
+    // storing data in the local storage
+    // converting to stringified json array to store
+    localStorage.setItem('books', JSON.stringify(books))
+}
+
+// method for displaying data in ui after fetching from the local storage
+StoreData.prototype.displayBooks = function(){
+    // fetching data from local storage
+    const books = storeData.getBook();
+    // user interface
+    const ui = new UI();
+
+    books.forEach(function(book){
+        // adding book to ui
+        ui.addBook(book);
+    })
+}
+
+// method for removing data from the local storage
+StoreData.prototype.removeBook = function(isbn){
+    // fetching data
+    const books = storeData.getBook();
+
+    // running for loop to remove the book
+    books.forEach(function(book, index){
+        // checking if the desired book found
+        if (book.isbn === isbn){
+            // deleting the book from array
+            books.splice(index, 1);
+        }
+    })
+    // resetting local storage
+    localStorage.setItem('books', JSON.stringify(books));
+}
+
+// event listener for displaying data from storage
+document.addEventListener('DOMContentLoaded', storeData.displayBooks);
+
 // Event Listener for adding book
 document.getElementById('book-form').addEventListener('submit', function(e){
     // getting form values
@@ -80,6 +144,9 @@ document.getElementById('book-form').addEventListener('submit', function(e){
     //instantiate UI
     const ui = new UI(); 
 
+    // instantiate Store Data
+    const storeData = new StoreData()
+
     // Validation
     if(title === '' || author === '' || isbn === ''){
         // error alert
@@ -87,6 +154,9 @@ document.getElementById('book-form').addEventListener('submit', function(e){
     }else{
         // add book to list
         ui.addBook(book);
+
+        // add book to local storage
+        storeData.addBook(book);
 
         // success text
         ui.showAlert('Book Added', 'success');
@@ -106,11 +176,19 @@ const bookList = document.getElementById('book-list');
 
 bookList.addEventListener('click', function(e){
 
-    // creating object
+    // ui object
     const ui = new UI();
 
-    // deleting using the method
+    // object for storing data
+    const storeData = new StoreData();
+
+    // deleting book from the ui
     ui.deleteBook(e.target);
+
+    // getting isbn value
+    const isbn = e.target.parentElement.previousElementSibling.textContent;
+    // deleting book from the local storage
+    storeData.removeBook(isbn);
 
     // shows alert
     ui.showAlert('Book Removed!', 'success');

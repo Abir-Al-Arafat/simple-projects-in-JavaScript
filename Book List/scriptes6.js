@@ -1,4 +1,4 @@
-// es6 class version
+// ES6 class version
 
 // class for book details
 class Book{
